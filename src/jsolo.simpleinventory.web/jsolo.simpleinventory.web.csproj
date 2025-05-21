@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Product>APUA SCADA Information Dashboard</Product>
+    <Version>1.0.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Authors>Jamal J. A. Solomon</Authors>
+    <Company>Antigua Public Utilities Authority</Company>
+    <Copyright>2022</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.11" />
+    <!-- <PackageReference Include="Sentry.AspNetCore" Version="3.33.0" /> -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\jsolo.simpleinventory.sys\jsolo.simpleinventory.sys.csproj" />
+    <ProjectReference Include="..\jsolo.simpleinventory.impl\jsolo.simpleinventory.impl.csproj" />
+  </ItemGroup>
+
+  <!-- Angular SPA App Configuration Options -->
+  <PropertyGroup>
+    <SpaRoot>www\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+</PropertyGroup>
+
+  <ItemGroup>
+      <!-- Don't publish the SPA source files, but do show them in the project files list -->
+      <Content Remove="$(SpaRoot)**" />
+      <None Remove="$(SpaRoot)**" />
+      <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+      <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+      <Exec WorkingDirectory="$(SpaRoot)" Command="yarn" />
+      <Exec WorkingDirectory="$(SpaRoot)" Command="yarn build:prod" />
+
+      <!-- Include the newly-built files in the publish output -->
+      <ItemGroup>
+        <DistFiles Include="$(SpaRoot)dist\**" />
+        <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+          <RelativePath>%(DistFiles.Identity)</RelativePath>
+          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </ResolvedFileToPublish>
+      </ItemGroup>
+  </Target>
+  <!-- Angular SPA App Configuration Options -->
+  
+</Project>
