@@ -1,0 +1,92 @@
+<nb-card style="position: relative;" [class]="compClasses">
+  <nb-card-header *ngIf="standalone">
+    <h3 *ngIf="user === null || user === undefined">Create new User</h3>
+    <h3 *ngIf="user !== null && canEdit === true">Update User Profile</h3>
+    <h3 *ngIf="user !== null && canEdit !== true && isDeleting !== true">User Details</h3>
+    <h3 *ngIf="user !== null && canEdit !== true && isDeleting === true">Confirm Deleting User</h3>
+    <p *ngIf="isDeleting === true">
+      <span>Are you sure that you wish to delete {{user.firstName}} {{user.lastName}}? </span>
+      <span class="text-danger small-caps">This action CANNOT be undone.</span>
+    </p>
+  </nb-card-header>
+  <button class="btn btn-danger rounded-circle dismiss-btn" (click)="dismiss()" *ngIf="standalone">
+    <i class="fa fa-times"></i>
+  </button>
+  <nb-card-body>
+    <form class="w-100 container" [formGroup]="userForm" (ngSubmit)="saveUserProfile(userForm.value)">
+      <div class="form-group row">
+        <input nbInput formControlName="firstName" name="firstName" type="text" class="form-control col ml-3 mr-3"
+          placeholder="First Name" />
+        <input nbInput formControlName="lastName" name="lastName" type="text" class="form-control col ml-3 mr-3"
+          placeholder="Last Name" />
+      </div>
+
+      <div class="form-group row pt-3">
+        <input nbInput formControlName="email" name="email" type="email" class="form-control col ml-3 mr-3"
+          placeholder="E-mail Address" />
+        <input nbInput formControlName="phone" name="phone" type="tel" class="form-control col ml-3 mr-3"
+          placeholder="Phone Number" />
+      </div>
+
+      <div class="form-group row pt-3">
+        <input nbInput id="birthday" name="birthday" formControlName="birthday" [nbDatepicker]="dobSel"
+          class="form-control col ml-3 mr-3" placeholder="Birthday" />
+        <nb-datepicker #dobSel></nb-datepicker>
+      </div>
+
+      <div class="form-group row pt-3">
+        <input nbInput formControlName="userName" name="userName" type="text" class="form-control col ml-3 mr-3"
+          placeholder="Username" />
+      </div>
+
+      <div class="form-group row pt-3">
+        <input nbInput formControlName="position" name="position" type="text" class="form-control col ml-3 mr-3"
+          placeholder="User's Position" />
+      </div>
+
+      <div class="form-group row pt-3" *ngIf="standalone">
+        <nb-select id="roles" name="roles" class="col full-width" placeholder="Select User's Role(s)" multiple
+          [disabled]="canEdit !== true" [style]="canEdit === false ? 'display:none;' : ''">
+          <nb-option *ngFor="let role of userRoles" [value]="role.name" [title]="role.description">
+            {{role.name}}
+          </nb-option>
+        </nb-select>
+        <h5 *ngIf="canEdit !== true" class="col-12">User Roles</h5>
+        <ul *ngIf="canEdit !== true && user.userRoles.length > 0" class="col-9 offset-1">
+          <li *ngFor="let role of user.userRoles">{{role}}</li>
+        </ul>
+        <p class="col-12 text-center text-danger" *ngIf="canEdit !== true && user.userRoles.length <= 0">
+          {{user.firstName}} {{user.lastName}} has no assigned user roles!
+        </p>
+      </div>
+
+      <div class="form-group row pt-3" *ngIf="standalone"
+        [style]="user !== null && canEdit === false ? 'display:none;' : ''">
+        <input nbInput formControlName="userPassword" name="userPassword" type="password"
+          class="form-control col ml-3 mr-3" placeholder="User's Password" />
+        <input nbInput formControlName="confirmUserPassword" name="confirmUserPassword" type="password"
+          class="form-control col ml-3 mr-3" placeholder="Confirm User's Password" />
+      </div>
+
+      <div class="form-group row pt-3" [style]="canEdit !== true ? 'display:none !important;' : ''"
+        *ngIf="canEdit || isDeleting">
+        <input nbInput formControlName="adminPassword" name="adminPassword" type="password"
+          class="form-control col ml-3 mr-3" placeholder="Administrator's Password" />
+      </div>
+
+      <div class="form-group row pt-3" style="display:flex; flex-direction: row-reverse;">
+        <button nbButton status="secondary" class="btn btn-outline-secondary col-4" (click)="dismiss()">
+          {{ canEdit === true ? 'Cancel' : 'Close' }}
+        </button>
+        <button nbButton type="submit" class="btn btn-info ml-2 mr-2 col-4" [disabled]="!userForm.valid"
+          *ngIf="canEdit === true">
+          {{ user ? 'Update Profile' : 'Create User' }}
+        </button>
+        <button nbButton type="submit" class="btn btn-danger ml-2 mr-2 col-4" [disabled]="!userForm.valid"
+          *ngIf="isDeleting === true">
+          Yes, delete user
+        </button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

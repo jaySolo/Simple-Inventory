@@ -1,0 +1,27 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  [nbInput].ng-invalid,
+  nb-select.ng-invalid,
+  textarea.ng-invalid,
+  form.ng-invalid {
+    border-color: #d8290a !important;
+  }
+
+  [nbInput].ng-invalid.nb-touched,
+  nb-select.ng-invalid.nb-touched,
+  textarea.ng-invalid.nb-touched {
+    border-color: #d8290a !important;
+    background-color: #ffdfdc !important;
+  }
+
+  [nbInput].ng-valid, nb-select.ng-valid, textarea.ng-valid {
+    border-color: #0ad833 !important;
+  }
+  
+  .dismiss-btn {
+    position: absolute;
+    top: -12px;
+    right: -18px;
+  }
+}

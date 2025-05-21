@@ -1,0 +1,79 @@
+<nb-card style="position: relative; width: 450px;" class="{{ standalone ? 'rounded'  : '' }}">
+  <nb-card-header *ngIf="standalone">
+    <h3 *ngIf="!role">Create new User Role</h3>
+    <h3 *ngIf="!canEdit && !isDeleting">User Role Details</h3>
+    <h3 *ngIf="!canEdit && isDeleting">Confirm Deleting User Role</h3>
+    <h3 *ngIf="role && canEdit">Update User Role</h3>
+  </nb-card-header>
+  <button class="btn btn-danger rounded-circle dismiss-btn"
+          (click)="dismiss()" *ngIf="standalone === true">
+    <i class="fa fa-times"></i>
+  </button>
+  <nb-card-body>
+    <form [formGroup]="userRoleForm" (ngSubmit)="save(userRoleForm.value)">
+      <div class="row" *ngIf="isDeleting">
+        <h6 class="text-center text-danger w-100 display-6 pl-4 pr-4">
+          Are you sure you wish to remove the <br> following user role from all records? <br>
+          This action CANNOT be undone!
+        </h6>
+      </div>
+      <div class="container w-100">
+        <div class="form-row pt-2 mb-2">
+          <label class="col-form-label col-3 text-right" for="name">Name: </label>
+          <input nbInput id="name" name="name" formControlName="name"
+                 class="form-control col" type="text"/>
+        </div>
+        <div class="form-row pt-2 mb-2">
+          <label class="col-form-label col-3 text-right" for="description">Description: </label>
+          <textarea nbInput id="description" name="description" formControlName="description"
+                    class="form-control col">
+          </textarea>
+        </div>
+        <div class="form-row pt-3 mb-2 text-center">
+          <nb-toggle id="hasAdminRights" name="hasAdminRights" formControlName="hasAdminRights"
+                     style="margin: auto;">
+            Has Administrator Privileges
+          </nb-toggle>
+        </div>
+
+        <div class="form-group row pt-3">
+          <nb-select id="permissions" name="permissions" formControlName="permissions"
+                     class="col full-width" placeholder="Select Permission(s)" multiple
+                     [disabled]="canEdit !== true" [fullWidth]="true"
+                     [style]="canEdit === false ? 'display:none;' : ''">
+            <nb-option *ngFor="let permission of permissions"
+                       [value]="permission.name" [title]="permission.description">
+              {{permission.name}}
+            </nb-option>
+          </nb-select>
+          <h5 *ngIf="canEdit !== true" class="col-12">Permissions</h5>
+          <ul *ngIf="canEdit !== true && role.permissions.length > 0"
+              class="col-9 offset-1 scroll-list list-unstyled">
+            <li *ngFor="let permission of role.permissions"
+                class="list-item">{{permission}}</li>
+          </ul>
+          <p *ngIf="canEdit !== true && role.permissions.length <= 0"
+             class="col-12 text-center text-danger" >
+            {{role.name}} has no assigned permissions!
+          </p>
+        </div>
+        <div class="form-group row pt-3" *ngIf="canEdit || isDeleting">
+          <input nbInput id="adminPassword" formControlName="adminPassword" name="adminPassword"
+                 class="form-control col ml-3 mr-3" type="password"
+                 placeholder="Administrator's Password" />
+        </div>
+        <div class="row text-center">
+          <button *ngIf="canEdit || isDeleting" [disabled]="!userRoleForm.valid"
+                  class="col-6 btn {{ canEdit ? 'btn-info' : (isDeleting ? 'btn-danger' : '') }}"
+                  type="submit">
+            {{ !role ? 'Create User Role' : (isDeleting ? 'Delete User Role' : 'Update User Role')}}
+          </button>
+          <button class="{{ canEdit || isDeleting ? 'offset-1' : 'offset-3'}} col-5 btn btn-outline-secondary"
+                  (click)="dismiss()">
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

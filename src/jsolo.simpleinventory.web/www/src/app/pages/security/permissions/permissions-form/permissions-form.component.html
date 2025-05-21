@@ -1,0 +1,84 @@
+<nb-card style="position: relative;" class="{{ standalone ? 'rounded'  : '' }}">
+  <nb-card-header *ngIf="standalone">
+    <h3 *ngIf="!permission">Create new Permission</h3>
+    <h3 *ngIf="!canEdit">Permission Details</h3>
+    <h3 *ngIf="permission && canEdit">Update Permission</h3>
+  </nb-card-header>
+
+  <button class="btn btn-danger rounded-circle dismiss-btn"
+          (click)="dismiss()" *ngIf="standalone">
+    <i class="fa fa-times"></i>
+  </button>
+
+  <nb-card-body>
+    <form [formGroup]="permissionForm" (ngSubmit)="save(permissionForm.value)">
+      <div class="row" *ngIf="isDeleting">
+        <h6 class="text-center text-danger w-100 display-6 pl-4 pr-4">
+          Are you sure you wish to remove the <br> following permission from all records? <br>
+          This action CANNOT be undone!
+        </h6>
+      </div>
+
+      <div class="container">
+
+        <div class="form-row pt-2 mb-2">
+          <label class="col-form-label col-3 text-right" for="name">
+            Name: 
+          </label>
+          <input nbInput id="name" name="name" formControlName="name"
+                 class="form-control col" type="text" />
+        </div>
+
+        <div class="form-row pt-2 mb-2">
+          <label class="col-form-label col-3 text-right" for="description">
+            Description: 
+          </label>
+          <input nbInput id="description" name="description" formControlName="description"
+                 class="form-control col"type="text" />
+        </div>
+
+        <div class="form-row pt-2 mb-2">
+          <label class="col-form-label col-3 text-right" for="route">
+            Route: 
+          </label>
+          <input nbInput id="route" name="route" formControlName="route"
+                 class="form-control col" type="text" />
+        </div>
+
+        <div class="form-row pt-2 mb-2">
+          <label class="col-3 text-right" for="acceptedMethods">
+            Accepted Methods: 
+          </label>
+          <nb-select multiple id="acceptedMethods" name="acceptedMethods"
+                     class="col full-width" placeholder="Select Accepted Methods"
+                     [(selected)]="selectedMethods" [disabled]="!canEdit || isDeleting">
+            <nb-option value="GET">Get</nb-option>
+            <nb-option value="POST">Post</nb-option>
+            <nb-option value="PUT">Put</nb-option>
+            <nb-option value="PATCH">Patch</nb-option>
+            <nb-option value="DELETE">Delete</nb-option>
+          </nb-select>
+        </div>
+
+        <div class="form-group row pt-3" *ngIf="canEdit || isDeleting">
+          <input nbInput formControlName="adminPassword" name="adminPassword"
+                 class="form-control col ml-3 mr-3" type="password"
+                 placeholder="Administrator's Password" />
+        </div>
+
+        <div class="row text-center">
+          <button *ngIf="canEdit || isDeleting" [disabled]="!permissionForm.valid"
+                  class="col-6 btn {{ canEdit ? 'btn-info' : (isDeleting ? 'btn-danger' : '') }}"
+                  type="submit">
+            {{ !permission ? 'Create Permission' : (isDeleting ? 'Delete Permission' : 'Update Permission')}}
+          </button>
+          <button class="{{ canEdit || isDeleting ? 'offset-1' : 'offset-3'}} col-5 btn btn-outline-secondary"
+                  (click)="dismiss()">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,15 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  .dismiss-btn {
+    position: absolute;
+    top: -12px;
+    right: -18px;
+  }
+  
+  ::ng-deep {
+    ngx-users-form > nb-card {
+      border: none !important;
+    }
+  }
+}

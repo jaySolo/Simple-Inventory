@@ -1,0 +1,37 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+
+  // ::nb-deep ng2-smart-table tbody tr td:nth-child(6) {
+  //   text-align: right;
+  // }
+
+  ::ng-deep td.ng2-smart-actions.ng-star-inserted {
+    // display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: fit-content;
+    margin: 5px auto;
+  }
+
+  ::ng-deep ng2-st-tbody-custom,
+  ::ng-deep ng2-st-tbody-edit-delete {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+
+  ::ng-deep .nb-theme-default ng2-smart-table .ng2-smart-actions a.ng2-smart-action {
+    display: inline-flex !important;
+    align-items: unset !important;
+    justify-content: unset !important;
+    height: 100%;
+    width: auto !important;
+  }
+
+  ::ng-deep a.ng2-smart-action.ng2-smart-action-add-add {
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
+  }
+}
