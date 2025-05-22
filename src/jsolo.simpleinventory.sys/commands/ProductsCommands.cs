@@ -45,13 +45,10 @@ public class CreateProductCommandHandler : RequestHandlerBase<CreateProductComma
         try
         {
             var newId = (Context.Products.OrderByDescending(product => product.Id).FirstOrDefault()?.Id ?? 0) + 1;
+
             var type = Context.ProductTypes.SingleOrDefault(t => t.Name.Equals(request.NewProduct.Type, StringComparison.InvariantCultureIgnoreCase));
             var currency = Context.Currencies.FirstOrDefault(c => c.Code.Equals(request.NewProduct.MarketValue.Currency.Code ?? ""));
-            List<Vendor> suppliers = new();
-            suppliers.AddRange(from supplier in request.NewProduct.Suppliers
-                               let vendor = Context.Vendors.FirstOrDefault(v => v.Id == supplier.Id)
-                               where vendor is not null
-                               select vendor);
+            List<ProductVendor> suppliers = new();
 
             var product = new Product(
                 newId,
@@ -66,6 +63,16 @@ public class CreateProductCommandHandler : RequestHandlerBase<CreateProductComma
                 CurrentUser.UserId.ToString(),
                 suppliers: suppliers
             );
+
+            suppliers.AddRange(from supplier in request.NewProduct.Suppliers
+                               let vendor = Context.Vendors.FirstOrDefault(v => v.Id == supplier.Id)
+                               where vendor is not null
+                               select new ProductVendor
+                               {
+                                   Id = Guid.NewGuid(),
+                                   Product = product,
+                                   Supplier = vendor
+                               });
 
             Context.BeginTransaction()
                 .Add(product)

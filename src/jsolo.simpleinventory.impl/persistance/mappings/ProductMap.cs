@@ -70,5 +70,11 @@ public class ProductMap : EntityMap<Product, int>
             map.Column("product_barcode");
             map.NotNullable(false);
         });
+
+        Bag(product => product.Suppliers, c =>
+        {
+            c.Key(k => k.Column("product_id"));
+            c.Cascade(Cascade.All);
+        }, map => map.OneToMany());
     }
 }

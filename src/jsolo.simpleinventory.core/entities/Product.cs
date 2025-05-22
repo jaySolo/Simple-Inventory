@@ -45,7 +45,7 @@ public class Product : Entity<int>
     public virtual IList<Medium> Gallery { get; protected set; } = new List<Medium>();
 
     /// <summary>A list of vendors that the product can be purchased from.</summary>
-    public virtual IList<Vendor> Suppliers { get; protected set; } = new List<Vendor>();
+    public virtual IList<ProductVendor> Suppliers { get; protected set; } = new List<ProductVendor>();
     #endregion
 
 
@@ -89,7 +89,7 @@ public class Product : Entity<int>
 #nullable enable
         string? barcode = null,
         IEnumerable<Medium>? media = null,
-        IEnumerable<Vendor>? suppliers = null,
+        IEnumerable<ProductVendor>? suppliers = null,
         DateTime? lastUpdatedOn = null,
         string? lastUpdaterId = null
 #nullable disable
@@ -252,11 +252,11 @@ public class Product : Entity<int>
     /// </summary>
     /// <param name="suppliers"></param>
     /// <returns></returns>
-    public virtual Product SetSuppliersAs(IEnumerable<Vendor> suppliers)
+    public virtual Product SetSuppliersAs(IEnumerable<ProductVendor> suppliers)
     {
         this.Suppliers.Clear();
 
-        foreach (Vendor supplier in suppliers)
+        foreach (ProductVendor supplier in suppliers)
         {
             this.Suppliers.Add(supplier);
         }
