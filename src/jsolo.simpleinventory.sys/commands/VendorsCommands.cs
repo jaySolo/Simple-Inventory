@@ -35,12 +35,13 @@ public class CreateVendorCommandHandler : RequestHandlerBase<CreateVendorCommand
 
     public override Task<DataOperationResult<VendorViewModel>> Handle(CreateVendorCommand request, CancellationToken token)
     {
+        // string qryBusinessName = ;
+        // string qryContactName = $"{r} {request.NewVendor.ContactFirstName} {request.NewVendor.ContactLastName}".ToLower();
+
         if (Context.Vendors.Any(vendor =>
-            vendor.CompanyName.Equals(request.NewVendor.BusinessName, StringComparison.InvariantCultureIgnoreCase) &&
-            vendor.ContactPersonName.FullName.Equals(
-                $"{request.NewVendor.ContactTitle} {request.NewVendor.ContactFirstName} {request.NewVendor.ContactLastName}",
-                StringComparison.InvariantCultureIgnoreCase
-            )
+            vendor.CompanyName.ToLower() == request.NewVendor.BusinessName.ToLower() &&
+            vendor.ContactPersonName.Title.ToLower() == request.NewVendor.ContactTitle.ToLower()
+        //vendor.ContactPersonName.FullName.ToLower() == qryContactName
         ))
         {
             return Task.FromResult(DataOperationResult<VendorViewModel>.Exists);
@@ -105,16 +106,41 @@ public class UpdateVendorCommandHandler : RequestHandlerBase<UpdateVendorCommand
 
     public override Task<DataOperationResult<VendorViewModel>> Handle(UpdateVendorCommand request, CancellationToken cancellationToken)
     {
-        return base.Handle(request, cancellationToken);
+        var vendor = Context.Vendors.FirstOrDefault(v => v.Id == request.UpdatedVendor.Id);
+
+        if (vendor is null)
+        {
+            return Task.FromResult(DataOperationResult<VendorViewModel>.NotFound);
+        }
+
+        try
+        {
+            vendor.SetCompanyName(request.UpdatedVendor.BusinessName)
+                .SetNameOfContact(new Name(request.UpdatedVendor.ContactTitle, request.UpdatedVendor.ContactLastName, request.UpdatedVendor.ContactFirstName))
+                .SetPhysicalAddress(request.UpdatedVendor.Address)
+                .SetTelephoneNumber(request.UpdatedVendor.ContactTelephone)
+                .SetFacsimileNumber(request.UpdatedVendor.ContactFax)
+                .SetMobilePhoneNumber(request.UpdatedVendor.ContactMobile)
+                .SetEmailAddress(request.UpdatedVendor.ContactEmail)
+                .SetLastModifierAsAt(CurrentUser.UserId.ToString(), DateTime.Now);
+
+            Context.BeginTransaction().Update(vendor).SaveChanges().CloseTransaction();
+
+            return Task.FromResult(DataOperationResult<VendorViewModel>.Success(vendor.ToViewModel()));
+        }
+        catch
+        {
+            return Task.FromResult(DataOperationResult<VendorViewModel>.Failure());
+        }
     }
 }
 
 
 
 public class DeleteVendorCommand : IRequest<DataOperationResult>
-    {
-        public int VendorId { get; set; }
-    }
+{
+    public int VendorId { get; set; }
+}
 
 
 

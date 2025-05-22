@@ -11,9 +11,11 @@ public class QueryFilterViewModel
 
     public int PageIndex { get; set; } = -1;
 
+#nullable enable
     public string? SortBy { get; set; }
 
     public string? OrderBy { get; set; }
+#nullable disable
 }
 
 

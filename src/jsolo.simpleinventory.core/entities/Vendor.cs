@@ -197,7 +197,9 @@ public class Vendor : Entity<int>
     protected override IEnumerable<object> GetEqualityComponents() => new List<object>()
     {
         this.CompanyName,
-        this.ContactPersonName?.FullName == ""
+        this.ContactPersonName?.Title,
+        this.ContactPersonName?.FirstName,
+        this.ContactPersonName?.Surname
     };
     #endregion
 }

@@ -44,12 +44,15 @@ public class VendorsController : AuthorizePermissionsBaseController
     [ProducesResponseType(404)]
     public async Task<IActionResult> Details(int id)
     {
-        var vendor = await Mediator.Send(new GetVendorDetailsQuery
+        var result = await Mediator.Send(new GetVendorDetailsQuery
         {
             VendorId = id
         });
 
-        if (vendor is not null) { return Ok(vendor); }
+        if (result.Succeeded && result.IsDataValid)
+        {
+            return Ok(result.Data);
+        }
 
         return NotFound(new { message = "The vendor type with the specified id does not exist!" });
     }

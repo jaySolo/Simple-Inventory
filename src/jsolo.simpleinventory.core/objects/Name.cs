@@ -34,13 +34,13 @@ public class Name : ValueObject
     #endregion
 
     #region instance methods & properties
-    public virtual string FullName
-    {
-        get
-        {
-            return $"{this.Title} {this.FirstName} {this.Surname}";
-        }
-    }
+    // public virtual string FullName
+    // {
+    //     get
+    //     {
+    //         return $"{this.Title} {this.FirstName} {this.Surname}";
+    //     }
+    // }
     #endregion
 
 

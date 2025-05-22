@@ -52,7 +52,7 @@ public class GetVendorsQueryHandler : IRequestHandler<GetVendorsQuery, QueryFilt
 
                 if (req.Parameters.ContactName?.Length > 0)
                 {
-                    vendors = vendors.Where(vendor => vendor.ContactPersonName.FullName.Contains(req.Parameters.ContactName, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+                    // vendors = vendors.Where(vendor => vendor.ContactPersonName.FullName.Contains(req.Parameters.ContactName, StringComparison.InvariantCultureIgnoreCase)).ToArray();
                 }
 
                 if (req.Parameters.ContactMobile?.Length > 0)
@@ -87,7 +87,7 @@ public class GetVendorsQueryHandler : IRequestHandler<GetVendorsQuery, QueryFilt
                 {
                     "businessName" => sortDesc ? vendors.OrderByDescending(vendor => vendor.CompanyName).ToArray() : vendors.OrderBy(vendor => vendor.CompanyName).ToArray(),
 
-                    "contactName" => sortDesc ? vendors.OrderByDescending(vendor => vendor.ContactPersonName.FullName).ToArray() : vendors.OrderBy(vendor => vendor.ContactPersonName.FullName).ToArray(),
+                    // "contactName" => sortDesc ? vendors.OrderByDescending(vendor => vendor.ContactPersonName.FullName).ToArray() : vendors.OrderBy(vendor => vendor.ContactPersonName.FullName).ToArray(),
 
                     "contactMobile" => sortDesc ? vendors.OrderByDescending(vendor => vendor.MobilePhoneNumber).ToArray() : vendors.OrderBy(vendor => vendor.MobilePhoneNumber).ToArray(),
 
@@ -161,7 +161,7 @@ public class GetVendorDetailsQueryHandler : IRequestHandler<GetVendorDetailsQuer
 
             if (vendor is not null)
             {
-                Task.FromResult(DataOperationResult<VendorViewModel>.Success(vendor.ToViewModel()));
+                return DataOperationResult<VendorViewModel>.Success(vendor.ToViewModel());
             }
 
             return DataOperationResult<VendorViewModel>.NotFound;
