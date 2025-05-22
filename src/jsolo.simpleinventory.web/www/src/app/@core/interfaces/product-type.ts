@@ -10,8 +10,8 @@ export interface ProductType {
 
 export abstract class ProductTypesData {
   abstract get gridDataSource(): DataSource;
-  abstract listAll(): Observable<ProductType[]>;
-  abstract list(pageNumber: number, pageSize: number, query?: string): Observable<ProductType[]>;
+  abstract listAll(): Observable<{ total: number, items: ProductType[] }>;
+  abstract list(pageNumber: number, pageSize: number, query?: string): Observable<{ total: number, items: ProductType[] }>;
   abstract get(id: number): Observable<ProductType>;
   abstract create(Vendor: ProductType): Observable<ProductType>;
   abstract update(Vendor: ProductType): Observable<ProductType>;

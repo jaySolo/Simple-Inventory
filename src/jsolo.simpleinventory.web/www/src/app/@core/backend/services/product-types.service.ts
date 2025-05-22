@@ -22,7 +22,7 @@ export class ProductTypesService extends ProductTypesData {
     }
 
 
-    listAll(): Observable<ProductType[]> {
+    listAll(): Observable<{ total: number, items: ProductType[] }> {
         let params: HttpParams = new HttpParams()
             .append('pageIndex', '-1')
             .append('pageSize', -1);
@@ -31,8 +31,8 @@ export class ProductTypesService extends ProductTypesData {
     }
 
 
-    list(pageNumber: number, pageSize: number, query: string = ''): Observable<ProductType[]> {
-        let params: HttpParams = new HttpParams().append('populate', 'deep,2');
+    list(pageNumber: number, pageSize: number, query: string = ''): Observable<{ total: number, items: ProductType[] }> {
+        let params: HttpParams = new HttpParams();
 
         if (pageSize > 0) {
             params = params.append('pageSize', `${pageSize}`)
