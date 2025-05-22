@@ -36,8 +36,8 @@ public class CreateProductCommandHandler : RequestHandlerBase<CreateProductComma
 
     public override Task<DataOperationResult<ProductViewModel>> Handle(CreateProductCommand request, CancellationToken token)
     {
-        if (Context.Products.Any(product =>
-            product.ProductName.Equals(request.NewProduct.Name, StringComparison.InvariantCultureIgnoreCase)))
+        var newName = request.NewProduct.Name.ToLower();
+        if (Context.Products.Any(product => product.ProductName.ToLower() == newName))
         {
             return Task.FromResult(DataOperationResult<ProductViewModel>.Exists);
         }
@@ -46,9 +46,11 @@ public class CreateProductCommandHandler : RequestHandlerBase<CreateProductComma
         {
             var newId = (Context.Products.OrderByDescending(product => product.Id).FirstOrDefault()?.Id ?? 0) + 1;
 
-            var type = Context.ProductTypes.SingleOrDefault(t => t.Name.Equals(request.NewProduct.Type, StringComparison.InvariantCultureIgnoreCase));
-            var currency = Context.Currencies.FirstOrDefault(c => c.Code.Equals(request.NewProduct.MarketValue.Currency.Code ?? ""));
+            var type = Context.ProductTypes.SingleOrDefault(t => t.Name.ToLower() == request.NewProduct.Type.ToLower());
+            var currency = Context.Currencies.FirstOrDefault(c => c.Code == (request.NewProduct.MarketValue.Currency.Code ?? ""));
             List<ProductVendor> suppliers = new();
+
+            var userId = CurrentUser.UserId.ToString();
 
             var product = new Product(
                 newId,
@@ -60,7 +62,8 @@ public class CreateProductCommandHandler : RequestHandlerBase<CreateProductComma
                 request.NewProduct.Description,
                 new Money(request.NewProduct.MarketValue.Amount, currency),
                 DateTime.Now,
-                CurrentUser.UserId.ToString(),
+                userId,
+                barcode: request.NewProduct.Barcode,
                 suppliers: suppliers
             );
 
@@ -117,7 +120,26 @@ public class UpdateProductCommandHandler : RequestHandlerBase<UpdateProductComma
 
     public override Task<DataOperationResult<ProductViewModel>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        return base.Handle(request, cancellationToken);
+        var product = Context.Products.FirstOrDefault(p => p.Id == request.ProductId);
+
+        if (product is null)
+        {
+            return Task.FromResult(DataOperationResult<ProductViewModel>.NotFound);
+        }
+
+        try
+        {
+            product
+                .SetLastModifierAsAt(CurrentUser.UserId.ToString(), DateTime.Now);
+
+            Context.BeginTransaction().Update(product).SaveChanges().CloseTransaction();
+
+            return Task.FromResult(DataOperationResult<ProductViewModel>.Success(product.ToViewModel()));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(DataOperationResult<ProductViewModel>.Failure(ex.InnerException?.ToString() ?? ex.ToString()));
+        }
     }
 }
 

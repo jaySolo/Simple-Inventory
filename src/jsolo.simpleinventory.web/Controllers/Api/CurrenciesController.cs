@@ -31,40 +31,43 @@ public class CurrenciesController : AuthorizePermissionsBaseController
     /// 
     /// []
     /// </remarks>
-    [HttpGet]
+    [HttpGet()]
     [ProducesResponseType(200)]
-    public async Task<IActionResult> All() => Ok(await Mediator.Send(new GetCurrenciesQuery()));
-
-
-    // GET: Currencies/XCD
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// </returns>
-    /// <response code="200"></response>
-    /// <response code="404"></response>
-    /// <response code="401"></response>
-    /// <remarks>
-    /// </remarks>
-    [HttpGet]
-    [HttpGet("{code}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(401)]
-    public async Task<IActionResult> Details(string code)
+    public async Task<IActionResult> All()
     {
-        var currency = await Mediator.Send(new GetCurrencyDetailsQuery
-        {
-            CurrencyCode = code
-        });
-
-        if (currency is not null)
-        {
-            return Ok(currency);
-        }
-
-        return NotFound();
+        return Ok(await Mediator.Send(new GetCurrenciesQuery()));
     }
+
+
+    // // GET: Currencies/XCD
+    // /// <summary>
+    // /// </summary>
+    // /// <returns>
+    // /// </returns>
+    // /// <response code="200"></response>
+    // /// <response code="404"></response>
+    // /// <response code="401"></response>
+    // /// <remarks>
+    // /// </remarks>
+    // [HttpGet]
+    // [HttpGet("[controller]/{code}")]
+    // [ProducesResponseType(200)]
+    // [ProducesResponseType(404)]
+    // [ProducesResponseType(401)]
+    // public async Task<IActionResult> Details(string code)
+    // {
+    //     var currency = await Mediator.Send(new GetCurrencyDetailsQuery
+    //     {
+    //         CurrencyCode = code
+    //     });
+
+    //     if (currency is not null)
+    //     {
+    //         return Ok(currency);
+    //     }
+
+    //     return NotFound();
+    // }
 
 
     // POST: Currencies

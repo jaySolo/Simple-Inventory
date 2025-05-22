@@ -108,7 +108,7 @@ public class Product : Entity<int>
             .SetDescription(description)
             .SetMarketPrice(marketPrice)
             .SetBarcode(barcode)
-            .SetGalleryAs(media)
+            // .SetGalleryAs(media)
             .SetSuppliersAs(suppliers)
             .SetLastModifierAsAt(lastUpdaterId, lastUpdatedOn);
     }

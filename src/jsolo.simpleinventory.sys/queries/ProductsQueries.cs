@@ -154,7 +154,7 @@ public class GetProductDetailsQueryHandler : IRequestHandler<GetProductDetailsQu
 
             if (product is not null)
             {
-                Task.FromResult(DataOperationResult<ProductViewModel>.Success(product.ToViewModel()));
+                return DataOperationResult<ProductViewModel>.Success(product.ToViewModel());
             }
 
             return DataOperationResult<ProductViewModel>.NotFound;

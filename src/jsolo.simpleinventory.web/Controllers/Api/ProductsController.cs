@@ -44,12 +44,12 @@ public class ProductsController : AuthorizePermissionsBaseController
     [ProducesResponseType(404)]
     public async Task<IActionResult> Details(int id)
     {
-        var product = await Mediator.Send(new GetProductDetailsQuery
+        var result = await Mediator.Send(new GetProductDetailsQuery
         {
             ProductId = id
         });
 
-        if (product is not null) { return Ok(product); }
+        if (result.Succeeded && result.IsDataValid) { return Ok(result.Data); }
 
         return NotFound(new { message = "The product type with the specified id does not exist!" });
     }

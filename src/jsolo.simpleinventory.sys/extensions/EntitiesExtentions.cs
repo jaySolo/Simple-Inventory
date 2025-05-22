@@ -41,13 +41,13 @@ public static class EntitiesExtentions
         InternalProductNumber = product.InternalProductNumber,
         ExternalProductNumber = product.ExternalProductNumber,
         Name = product.ProductName,
-        Type = product.Type.ToString(),
+        Type = product.Type.Name,
         Make = product.Make,
         Description = product.Description,
         MarketValue = product.MarketPrice.ToViewModel(),
         Barcode = product.BarCode,
         // Gallery = ,
-        Suppliers = product?.Suppliers?.Count > 0 ? product.Suppliers.Select(supplier => supplier.ToViewModel()).ToList() : new List<VendorViewModel>(),
+        Suppliers = product?.Suppliers?.Count > 0 ? product.Suppliers.Select(ps => ps.Supplier.ToViewModel()).ToList() : new List<VendorViewModel>(),
     };
 
 
