@@ -4,17 +4,17 @@ import { HttpParams } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { HttpService } from "../common/http.service";
-import { Vendor, VendorsData } from "../../interfaces/vendor";
+import { Product, ProductsData } from "../../interfaces/product";
 import { DataSource } from "ng2-smart-table/lib/lib/data-source/data-source";
 
 @Injectable()
-export class VendorsService extends VendorsData {
+export class ProductsService extends ProductsData {
 
     private readonly url: string;
 
     constructor(private api: HttpService) {
         super();
-        this.url = 'vendors';
+        this.url = 'products';
     }
 
     get gridDataSource(): DataSource {
@@ -22,7 +22,7 @@ export class VendorsService extends VendorsData {
     }
 
 
-    listAll(): Observable<Vendor[]> {
+    listAll(): Observable<Product[]> {
         let params: HttpParams = new HttpParams()
             .append('pageIndex', '-1')
             .append('pageSize', -1);
@@ -31,7 +31,7 @@ export class VendorsService extends VendorsData {
     }
 
 
-    list(pageNumber: number, pageSize: number, query: string = ''): Observable<Vendor[]> {
+    list(pageNumber: number, pageSize: number, query: string = ''): Observable<Product[]> {
         let params: HttpParams = new HttpParams().append('populate', 'deep,2');
 
         if (pageSize > 0) {
@@ -46,18 +46,18 @@ export class VendorsService extends VendorsData {
     }
 
 
-    get(id: number): Observable<Vendor> {
+    get(id: number): Observable<Product> {
         return this.api.get(`${this.url}/${id}`);
     }
 
 
-    create(vendor: Vendor): Observable<Vendor> {
-        return this.api.post(this.url, vendor);
+    create(product: Product): Observable<Product> {
+        return this.api.post(this.url, product);
     }
 
 
-    update(vendor: Vendor): Observable<Vendor> {
-        return this.api.put(`${this.url}/${vendor.id}`, vendor);
+    update(product: Product): Observable<Product> {
+        return this.api.put(`${this.url}/${product.id}`, product);
     }
 
 

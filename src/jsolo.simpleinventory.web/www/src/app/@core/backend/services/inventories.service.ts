@@ -4,17 +4,17 @@ import { HttpParams } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { HttpService } from "../common/http.service";
-import { Vendor, VendorsData } from "../../interfaces/vendor";
+import { Inventory, InventoriesData } from "../../interfaces/inventory";
 import { DataSource } from "ng2-smart-table/lib/lib/data-source/data-source";
 
 @Injectable()
-export class VendorsService extends VendorsData {
+export class InventoriesService extends InventoriesData {
 
     private readonly url: string;
 
     constructor(private api: HttpService) {
         super();
-        this.url = 'vendors';
+        this.url = 'inventories';
     }
 
     get gridDataSource(): DataSource {
@@ -22,7 +22,7 @@ export class VendorsService extends VendorsData {
     }
 
 
-    listAll(): Observable<Vendor[]> {
+    listAll(): Observable<Inventory[]> {
         let params: HttpParams = new HttpParams()
             .append('pageIndex', '-1')
             .append('pageSize', -1);
@@ -31,7 +31,7 @@ export class VendorsService extends VendorsData {
     }
 
 
-    list(pageNumber: number, pageSize: number, query: string = ''): Observable<Vendor[]> {
+    list(pageNumber: number, pageSize: number, query: string = ''): Observable<Inventory[]> {
         let params: HttpParams = new HttpParams().append('populate', 'deep,2');
 
         if (pageSize > 0) {
@@ -46,22 +46,22 @@ export class VendorsService extends VendorsData {
     }
 
 
-    get(id: number): Observable<Vendor> {
+    get(id: string): Observable<Inventory> {
         return this.api.get(`${this.url}/${id}`);
     }
 
 
-    create(vendor: Vendor): Observable<Vendor> {
-        return this.api.post(this.url, vendor);
+    create(inventory: Inventory): Observable<Inventory> {
+        return this.api.post(this.url, inventory);
     }
 
 
-    update(vendor: Vendor): Observable<Vendor> {
-        return this.api.put(`${this.url}/${vendor.id}`, vendor);
+    update(inventory: Inventory): Observable<Inventory> {
+        return this.api.put(`${this.url}/${inventory.id}`, inventory);
     }
 
 
-    delete(id: number): Observable<any> {
+    delete(id: string): Observable<any> {
         return this.api.delete(`${this.url}/${id}`);
     }
 }

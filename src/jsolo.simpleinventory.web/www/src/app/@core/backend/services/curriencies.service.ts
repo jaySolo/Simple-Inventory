@@ -4,17 +4,17 @@ import { HttpParams } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { HttpService } from "../common/http.service";
-import { Vendor, VendorsData } from "../../interfaces/vendor";
+import { Currency, CurrenciesData } from "../../interfaces/currency";
 import { DataSource } from "ng2-smart-table/lib/lib/data-source/data-source";
 
 @Injectable()
-export class VendorsService extends VendorsData {
+export class CurrenciesService extends CurrenciesData {
 
     private readonly url: string;
 
     constructor(private api: HttpService) {
         super();
-        this.url = 'vendors';
+        this.url = 'currencies';
     }
 
     get gridDataSource(): DataSource {
@@ -22,7 +22,7 @@ export class VendorsService extends VendorsData {
     }
 
 
-    listAll(): Observable<Vendor[]> {
+    listAll(): Observable<Currency[]> {
         let params: HttpParams = new HttpParams()
             .append('pageIndex', '-1')
             .append('pageSize', -1);
@@ -31,7 +31,7 @@ export class VendorsService extends VendorsData {
     }
 
 
-    list(pageNumber: number, pageSize: number, query: string = ''): Observable<Vendor[]> {
+    list(pageNumber: number, pageSize: number, query: string = ''): Observable<Currency[]> {
         let params: HttpParams = new HttpParams().append('populate', 'deep,2');
 
         if (pageSize > 0) {
@@ -46,22 +46,22 @@ export class VendorsService extends VendorsData {
     }
 
 
-    get(id: number): Observable<Vendor> {
-        return this.api.get(`${this.url}/${id}`);
+    get(code: string): Observable<Currency> {
+        return this.api.get(`${this.url}/${code}`);
     }
 
 
-    create(vendor: Vendor): Observable<Vendor> {
-        return this.api.post(this.url, vendor);
+    create(currency: Currency): Observable<Currency> {
+        return this.api.post(this.url, currency);
     }
 
 
-    update(vendor: Vendor): Observable<Vendor> {
-        return this.api.put(`${this.url}/${vendor.id}`, vendor);
+    update(currency: Currency): Observable<Currency> {
+        return this.api.put(`${this.url}/${currency.code}`, currency);
     }
 
 
-    delete(id: number): Observable<any> {
-        return this.api.delete(`${this.url}/${id}`);
+    delete(code: string): Observable<any> {
+        return this.api.delete(`${this.url}/${code}`);
     }
 }
