@@ -1829,6 +1829,50 @@
     d3-time-format "^2.2.2"
     d3-transition "^1.3.2"
 
+"@syncfusion/ej2-angular-barcode-generator@^29.2.5":
+  version "29.2.5"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-angular-barcode-generator/-/ej2-angular-barcode-generator-29.2.5.tgz#0f89314e3c8f51336da7c82e066e8c273150b326"
+  integrity sha512-JU2QrmzPoIHPHYNLrHj82eB6aVRx2yQEtRsf3I8qHGxIiG1U+e7JvX7vdVT/lyTCX4dtNajmQF9RDhEOhweMmg==
+  dependencies:
+    "@syncfusion/ej2-angular-base" "~29.2.4"
+    "@syncfusion/ej2-barcode-generator" "29.2.5"
+    "@syncfusion/ej2-base" "~29.2.4"
+
+"@syncfusion/ej2-angular-base@~29.2.4":
+  version "29.2.4"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-angular-base/-/ej2-angular-base-29.2.4.tgz#24f6b22d3f76658182f41445a7bc329d57da4fc9"
+  integrity sha512-6SiGkjKOy/9RwfkFNKCix5OjoZkN7bqN+76S0+0FOP67fLH9DYcDvwkkSd7tVNAHnEbfSh8SV5oSjEm4hvYSNQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~29.2.4"
+    "@syncfusion/ej2-icons" "~29.2.4"
+
+"@syncfusion/ej2-barcode-generator@29.2.5":
+  version "29.2.5"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-barcode-generator/-/ej2-barcode-generator-29.2.5.tgz#415e964659548d70d3495bc54a2397ec99102b82"
+  integrity sha512-P5jHvZZdpPDxeLjyTKvhaO3ttvGUy6cxOZIqdil8ch/m10hW3eoB2EZJ1jfchWmtVSI8GngyiuYMFb/pTvGzAg==
+  dependencies:
+    "@syncfusion/ej2-base" "~29.2.4"
+    "@syncfusion/ej2-data" "~29.2.4"
+
+"@syncfusion/ej2-base@~29.2.4":
+  version "29.2.4"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-base/-/ej2-base-29.2.4.tgz#ff9d31909ea34cff20c8df8b6e85bdea23450e00"
+  integrity sha512-ka+ClGOvb4RzyPq5sveOO8TUMjIvSOBwExnbOG47YwMrC0RGJSNc6wJlhtm+6ZtmHx457oyH7c/WEj5wfV2B4w==
+  dependencies:
+    "@syncfusion/ej2-icons" "~29.2.4"
+
+"@syncfusion/ej2-data@~29.2.4":
+  version "29.2.4"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-data/-/ej2-data-29.2.4.tgz#c998689837690c831c8fdb4ef2ddb9fbd0b92f6a"
+  integrity sha512-2R+N65OPq+yfwTXyBz7NdD8MHGoxUbJSEWGT0kNEGMiobiI4AL+hfMYEhXWXE+DqL5Pm0txA4gTXQprFXXbccg==
+  dependencies:
+    "@syncfusion/ej2-base" "~29.2.4"
+
+"@syncfusion/ej2-icons@~29.2.4":
+  version "29.2.4"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-icons/-/ej2-icons-29.2.4.tgz#bf5ce846b30a268f5548a698e27d0674a7e4c5bb"
+  integrity sha512-2DYZglxLM++w0S2wB2bcr/Akk1MODdVhfFYLaLqe6mDHDRicFeTEyvnGPx2SHS2EXXlNNFm2GfNWoNNxgs5MhQ==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
