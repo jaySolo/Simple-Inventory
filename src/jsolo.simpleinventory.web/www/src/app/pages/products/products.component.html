@@ -1,0 +1,13 @@
+<div class="page-title row col-12 mb-4">
+  <div class="text">
+    <h3 class="mb-0">Products</h3>
+    <small class=""
+      >{{ count }} {{ count === 1 ? "Product" : "Products" }} found.</small
+    >
+  </div>
+</div>
+<div class="row">
+  <nb-card class="col p-0" accent="primary" [nbSpinner]="loading">
+    <ngx-products-list [products]="data" [canAdd]="true" [canEdit]="true" [canView]="true"></ngx-products-list>
+  </nb-card>
+</div>

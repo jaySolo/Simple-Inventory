@@ -1,0 +1,90 @@
+<ng-template #delProductDialog let-data let-ref="delProductDialogRef">
+    <nb-card [nbSpinner]="loading" style="min-width: 465px;">
+        <nb-card-header>
+            <h1>Confirm Deleteing Product</h1>
+        </nb-card-header>
+        <nb-card-body>
+            <div class="row text-center">
+                <p class="col h4 font-weight-light text-center text-danger mt-2 mb-4">
+                    Are you sure that you wish to delete this product? <br />
+                    This action <b>CANNOT</b> be undone.
+                </p>
+            </div>
+        </nb-card-body>
+        <nb-card-footer class="text-center">
+            <button (click)="deleteThisProduct()" class="btn btn-danger pl-5 pr-5 mr-md-3">Yes, delete product</button>
+            <button (click)="dismissDialog()" class="btn btn-outline-secondary pl-4 pr-4">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<div class="page-title row col-12 mb-5">
+    <div class="text" *ngIf="!isNewProduct">
+        <h4 class="mb-0 pb-0" *ngIf="loading">
+            Loading information for Product
+            <br>
+            <small>please wait . . .</small>
+        </h4>
+        <h4 class="mb-0 pb-0" *ngIf="!loading && thisProduct && isEditable !== true">
+            View Information of {{thisProduct?.name ?? thisProduct?.id}}
+        </h4>
+        <h4 class="mb-0 pb-0" *ngIf="!loading && thisProduct && isEditable === true">
+            Update Information of {{thisProduct?.name ?? thisProduct?.id}}
+        </h4>
+        <text *ngIf="!loading">
+            <small *ngIf="thisProduct?.lastUpdatedOn && thisProduct?.lastUpdater && !loading">
+                Last updated {{ thisProduct.lastUpdatedOn | date }}
+                at {{ thisProduct.lastUpdatedOn | date: 'hh:mm:ss aa' }}
+                by {{ thisProduct.lastUpdater.firstName }} {{thisProduct.lastUpdater.lastName}}.
+            </small>
+            <small *ngIf="!thisProduct?.lastUpdatedOn && thisProduct?.lastUpdater && !loading">
+                Last updated by {{ thisProduct.lastUpdater.firstName }} {{thisProduct.lastUpdater.lastName}}.
+            </small>
+            <small *ngIf="thisProduct?.lastUpdatedOn && !thisProduct?.lastUpdater && !loading">
+                Last updated {{ thisProduct.lastUpdatedOn | date }}
+                at {{ thisProduct.lastUpdatedOn | date: 'hh:mm:ss aa' }}.
+            </small>
+            <small
+                *ngIf="!thisProduct?.lastUpdatedOn && !thisProduct?.lastUpdater && !((!thisProduct && !isNewProduct) || loading)">
+                Never updated.
+            </small>
+        </text>
+    </div>
+    <div class="text" *ngIf="isNewProduct">
+        <h4 class="mb-0 pb-0">Create a new Product</h4>
+        <small *ngIf="!thisProduct?.lastUpdatedOn">
+            Fill out the form and click on the save button to create a new product.
+        </small>
+    </div>
+    <div *ngIf="isNewProduct !== true && isEditable !== true && !loading"
+        class="action text-right pt-3">
+        <button nbButton (click)="spawnDelDialog(delProductDialog)" class="mr-2 col-3" status="danger" outline>
+            Delete
+        </button>
+        <button nbButton status="primary" class="col-3" (click)="enableForm()">Edit</button>
+    </div>
+    <div *ngIf="(isNewProduct === true || isEditable === true) && !loading" class="action text-right pt-3">
+        <button nbButton (click)="onTriggerCancel()" class="mr-2 col-3" outline status="danger">Cancel</button>
+        <button nbButton (click)="onTriggerSubmit()" class="col-3" status="primary">Save</button>
+    </div>
+</div>
+
+<div class="row">
+    <nb-card [nbSpinner]="(!thisProduct && !isNewProduct) || loading" nbSpinnerSize="giant" nbSpinnerStatus="info"
+        class="col p-0" accent="primary">
+        <ngx-product-form [productData]="thisProduct" [action]="action" [isNewProduct]="isNewProduct"
+                         [triggerAction]="actionEmitter" (Submit)="onFormSubmit($event)" (Cancel)="onFormCancel()">
+        </ngx-product-form>
+
+        <nb-card class="ml-4 mr-4 mt-2">
+            <div class="h4 m-2">Suppliers</div>
+            <ngx-vendors-list [canAdd]="true" [canDelete]="true"></ngx-vendors-list>
+        </nb-card>
+
+        <!-- <nb-card class="ml-4 mr-4 mt-2"> -->
+            <!-- <div class="h4 m-2">Product Gallery</div> -->
+            <!--TODO: Add Gallery here-->
+        <!-- </nb-card> -->
+        
+    </nb-card>
+</div>

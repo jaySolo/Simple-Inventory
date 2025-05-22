@@ -1,0 +1,83 @@
+.page-title>.action,
+.page-title>.text {
+  width: 50% !important;
+}
+
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+
+  .container {
+    margin-top: 12.5%;
+    margin-bottom: 12.5%;
+    .no-drag-drop-zone {
+      color: var(--color-danger-300);
+
+      p {
+        margin-top: 10px;
+        color: var(--color-danger-300);
+        font-size: 2rem;
+        font-weight: 200;
+        line-height: 0.85;
+      }
+    }
+  }
+
+  .page-title {
+
+    .action,
+    .text {
+      width: 50% !important;
+    }
+  }
+
+  .small-caps {
+    font-variant: small-caps;
+    color: var(--color-basic-700);
+    letter-spacing: 1.5px;
+    margin-bottom: 1px;
+    padding-left: 3px;
+  }
+
+  .w-100 {
+    width: 100% !important;
+  }
+
+  nb-card.aside {
+    min-height: 600px;
+  }
+
+  // ::nb-deep angular2-smart-table tbody tr td:nth-child(6) {
+  //   text-align: right;
+  // }
+
+  ::ng-deep td.angular2-smart-actions.ng-star-inserted {
+    // display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: fit-content;
+    margin: 5px auto;
+  }
+
+  ::ng-deep angular2-st-tbody-custom,
+  ::ng-deep angular2-st-tbody-edit-delete {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+
+  ::ng-deep .nb-theme-default angular2-smart-table .angular2-smart-actions a.angular2-smart-action {
+    display: inline-flex !important;
+    align-items: unset !important;
+    justify-content: unset !important;
+    height: 100%;
+    width: auto !important;
+  }
+
+  ::ng-deep a.angular2-smart-action.angular2-smart-action-add-add {
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
+  }
+
+}

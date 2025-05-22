@@ -1,0 +1,81 @@
+<form [formGroup]="productForm">
+  <div class="row">
+    <input nbInput type="hidden" id="id" name="id" formControlName="id" />
+    <div class="col">
+      <nb-card class="m-4">
+        <h5 class="mb-1 pl-1">Product Information</h5>
+
+        <div class="col mt-md-2 ml-1">
+          <div class="form-row">
+            <div class="col-3">
+              <div class="form-group text-center">
+                <img src="../../../../assets/images/product.png" height="325px">
+                <ejs-barcodegenerator id="barcode" width="100%" height="95px" mode="SVG" type="Code39"
+                                      [value]="barcode"
+                                       (invalid)="invalidBarcodeInput($event)"
+                                       (click)="openDialog()">
+                </ejs-barcodegenerator>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="form-group col">
+                  <label for="internalProductNumber" class="small-caps">Internal Product Number</label>
+                  <input nbInput id="internalProductNumber" name="internalProductNumber" formControlName="internalProductNumber"
+                        class="form-control" type="text">
+                </div>
+                <div class="form-group col">
+                  <label for="externalProductNumber" class="small-caps">External Product Number</label>
+                  <input nbInput id="externalProductNumber" name="externalProductNumber" formControlName="externalProductNumber"
+                        class="form-control" type="text">
+                </div>
+              </div>
+              <div class="row">
+                  <div class="form-group col">
+                    <label for="name" class="small-caps">Product Name</label>
+                    <input nbInput id="name" name="name" formControlName="name"
+                          class="form-control" type="text">
+                  </div>
+                <div class="form-group col">
+                  <label for="type" class="small-caps">Product Type</label>
+                  <input nbInput id="type" name="type" formControlName="type"
+                        class="form-control" type="text" [nbAutocomplete]="prodTypeAutoCtrl">
+                  <nb-autocomplete #prodTypeAutoCtrl>
+                    <nb-option *ngFor="let productType of filteredProductTypes$ | async" [value]="productType">
+                      {{productType}}
+                    </nb-option>
+                  </nb-autocomplete>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label for="make" class="small-caps">Make/Manufacturer</label>
+                  <input nbInput id="make" name="make" formControlName="make"
+                        class="form-control" type="text">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label class="small-caps">Market Price</label>
+                  <input nbInput id="priceValue" name="priceValue" formControlName="priceValue"
+                        class="form-control col-8 mr-0 pr-0" type="text">
+                  <nb-select id="priceCurrency" name="priceCurrency" formControlName="priceCurrency" class="col-3 ml-0 pl-0">
+                    <nb-option *ngFor="let currency of currencies" [value]="currency.code">{{currency.code}}</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label for="description" class="small-caps">Description</label>
+                  <textarea nbInput id="description" name="description" formControlName="description"
+                        class="form-control" type="text">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nb-card>
+    </div>
+  </div>
+</form>

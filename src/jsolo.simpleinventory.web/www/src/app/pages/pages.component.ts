@@ -30,6 +30,12 @@ export class PagesComponent {
         link: '/pages/vendors'
       },
       {
+        title: 'Products',
+        icon: 'archive-outline',
+        // hidden: !this.hasPermission('api/vendors', permissions),
+        link: '/pages/products'
+      },
+      {
         title: 'System Security',
         // hidden: !this.hasPermission('security/', permissions),
         icon: 'shield',
