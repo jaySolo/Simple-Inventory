@@ -24,6 +24,12 @@ export class PagesComponent {
         link: '/pages/dashboard',
       },
       {
+        title: 'Vendors',
+        icon: 'people',
+        // hidden: !this.hasPermission('api/vendors', permissions),
+        link: '/pages/vendors'
+      },
+      {
         title: 'System Security',
         // hidden: !this.hasPermission('security/', permissions),
         icon: 'shield',

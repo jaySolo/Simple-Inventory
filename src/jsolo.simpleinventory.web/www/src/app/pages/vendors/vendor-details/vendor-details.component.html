@@ -1,0 +1,79 @@
+<ng-template #delVendorDialog let-data let-ref="delVendorDialogRef">
+    <nb-card [nbSpinner]="loading" style="min-width: 465px;">
+        <nb-card-header>
+            <h1>Confirm Deleteing Vendor</h1>
+        </nb-card-header>
+        <nb-card-body>
+            <div class="row text-center">
+                <p class="col h4 font-weight-light text-center text-danger mt-2 mb-4">
+                    Are you sure that you wish to delete this vendor? <br />
+                    This action <b>CANNOT</b> be undone.
+                </p>
+            </div>
+        </nb-card-body>
+        <nb-card-footer class="text-center">
+            <button (click)="deleteThisVendor()" class="btn btn-danger pl-5 pr-5 mr-md-3">Yes, delete vendor</button>
+            <button (click)="dismissDialog()" class="btn btn-outline-secondary pl-4 pr-4">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<div class="page-title row col-12 mb-5">
+    <div class="text" *ngIf="!isNewVendor">
+        <h4 class="mb-0 pb-0" *ngIf="loading">
+            Loading information for Vendor
+            <br>
+            <small>please wait . . .</small>
+        </h4>
+        <h4 class="mb-0 pb-0" *ngIf="!loading && thisVendor && isEditable !== true">
+            View Information of {{thisVendorDisplayName}}
+        </h4>
+        <h4 class="mb-0 pb-0" *ngIf="!loading && thisVendor && isEditable === true">
+            Update Information of {{thisVendorDisplayName}}
+        </h4>
+        <text *ngIf="!loading">
+            <small *ngIf="thisVendor?.lastUpdatedOn && thisVendor?.lastUpdater && !loading">
+                Last updated {{ thisVendor.lastUpdatedOn | date }}
+                at {{ thisVendor.lastUpdatedOn | date: 'hh:mm:ss aa' }}
+                by {{ thisVendor.lastUpdater.firstName }} {{thisVendor.lastUpdater.lastName}}.
+            </small>
+            <small *ngIf="!thisVendor?.lastUpdatedOn && thisVendor?.lastUpdater && !loading">
+                Last updated by {{ thisVendor.lastUpdater.firstName }} {{thisVendor.lastUpdater.lastName}}.
+            </small>
+            <small *ngIf="thisVendor?.lastUpdatedOn && !thisVendor?.lastUpdater && !loading">
+                Last updated {{ thisVendor.lastUpdatedOn | date }}
+                at {{ thisVendor.lastUpdatedOn | date: 'hh:mm:ss aa' }}.
+            </small>
+            <small
+                *ngIf="!thisVendor?.lastUpdatedOn && !thisVendor?.lastUpdater && !((!thisVendor && !isNewVendor) || loading)">
+                Never updated.
+            </small>
+        </text>
+    </div>
+    <div class="text" *ngIf="isNewVendor">
+        <h4 class="mb-0 pb-0">Create a new Vendor</h4>
+        <small *ngIf="!thisVendor?.lastUpdatedOn">
+            Fill out the form and click on the save button to create a new vendor.
+        </small>
+    </div>
+    <div *ngIf="isNewVendor !== true && isEditable !== true && !loading"
+        class="action text-right pt-3">
+        <button nbButton (click)="spawnDelDialog(delVendorDialog)" class="mr-2 col-3" status="danger" outline>
+            Delete
+        </button>
+        <button nbButton status="primary" class="col-3" (click)="enableForm()">Edit</button>
+    </div>
+    <div *ngIf="(isNewVendor === true || isEditable === true) && !loading" class="action text-right pt-3">
+        <button nbButton (click)="onTriggerCancel()" class="mr-2 col-3" outline status="danger">Cancel</button>
+        <button nbButton (click)="onTriggerSubmit()" class="col-3" status="primary">Save</button>
+    </div>
+</div>
+
+<div class="row">
+    <nb-card [nbSpinner]="(!thisVendor && !isNewVendor) || loading" nbSpinnerSize="giant" nbSpinnerStatus="info"
+        class="col p-0" accent="primary">
+        <ngx-vendor-form [vendorData]="thisVendor" [action]="action" [isNewVendor]="isNewVendor"
+                         [triggerAction]="actionEmitter" (Submit)="onFormSubmit($event)" (Cancel)="onFormCancel()">
+        </ngx-vendor-form>
+    </nb-card>
+</div>

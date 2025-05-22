@@ -1,0 +1,18 @@
+<div class="page-title row col-12 mb-4">
+  <div class="text">
+    <h3 class="mb-0">Vendors</h3>
+    <small class=""
+      >{{ count }} {{ count === 1 ? "Vendor" : "Vendors" }} found.</small
+    >
+  </div>
+</div>
+<div class="row">
+  <nb-card class="col p-0" accent="primary" [nbSpinner]="loading">
+    <ng2-smart-table [source]="data" [settings]="config" 
+                    (create)="createNewVendor()"
+                    (edit)="updateVendor($event)"
+                    (delete)="deleteVendor($event)"
+                    (custom)="execCustomAction($event)">
+    </ng2-smart-table>
+  </nb-card>
+</div>

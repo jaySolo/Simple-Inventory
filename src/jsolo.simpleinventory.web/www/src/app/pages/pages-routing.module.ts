@@ -18,6 +18,11 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
+        path: 'vendors',
+        loadChildren: () => import('./vendors/vendors.module')
+          .then(m => m.VendorsModule),
+      },
+      {
         path: 'security',
         // canActivate: [AdminGuard],
         loadChildren: () => import('./security/security.module')

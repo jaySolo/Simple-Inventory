@@ -1,0 +1,82 @@
+<form [formGroup]="vendorForm">
+  <div class="row">
+    <input nbInput type="hidden" id="id" name="id" formControlName="id" />
+    <div class="col">
+      <nb-card class="m-4">
+        <h5 class="mb-1 pl-1">Company Details</h5>
+
+        <div class="col mt-md-2 ml-1">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="businessName" class="small-caps">Business Name</label>
+              <input nbInput id="businessName" name="businessName" formControlName="businessName"
+                    class="form-control" type="text">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="address" class="small-caps">Address</label>
+              <textarea nbInput id="address" name="address" formControlName="address"
+                    class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </nb-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <input nbInput type="hidden" id="id" name="id" formControlName="id" />
+    <div class="col">
+      <nb-card class="m-4">
+        <h5 class="mb-1 pl-1">Contact Person Details</h5>
+
+        <div class="col mt-md-2 ml-1">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="contactTitle" class="small-caps">Title</label>
+              <input nbInput id="contactTitle" name="contactTitle" formControlName="contactTitle"
+                    class="form-control" type="text">
+            </div>
+            <div class="form-group col">
+              <label for="contactFirstName" class="small-caps">First Name</label>
+              <input nbInput id="contactFirstName" name="contactFirstName" formControlName="contactFirstName"
+                    class="form-control" type="text">
+            </div>
+            <div class="form-group col ml-md-2">
+              <label for="contactLastName" class="small-caps">Last Name</label>
+              <input nbInput id="contactLastName" name="contactLastName" formControlName="contactLastName"
+                    class="form-control" type="text">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="contactTelephone" class="small-caps">Telephone Number</label>
+              <input nbInput id="contactTelephone" name="contactTelephone" formControlName="contactTelephone"
+                    class="form-control" type="text">
+            </div>
+            <div class="form-group col">
+              <label for="contactFax" class="small-caps">Facsimile (Fax) Number</label>
+              <input nbInput id="contactFax" name="contactFax" formControlName="contactFax"
+                    class="form-control" type="text">
+            </div>
+            <div class="form-group col ml-md-2">
+              <label for="contactMobile" class="small-caps">Mobile Phone Number</label>
+              <input nbInput id="contactMobile" name="contactMobile" formControlName="contactMobile"
+                    class="form-control" type="text">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="contactEmail" class="small-caps">E-mail Address</label>
+              <input nbInput id="contactEmail" name="contactEmail" formControlName="contactEmail"
+                    class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+      </nb-card>
+    </div>
+  </div>
+
+
+</form>
