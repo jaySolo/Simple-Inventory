@@ -8,7 +8,7 @@ export interface ProductType {
 }
 
 
-export abstract class ProductsData {
+export abstract class ProductTypesData {
   abstract get gridDataSource(): DataSource;
   abstract listAll(): Observable<ProductType[]>;
   abstract list(pageNumber: number, pageSize: number, query?: string): Observable<ProductType[]>;

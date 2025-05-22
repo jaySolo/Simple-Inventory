@@ -7,14 +7,14 @@ import { DataSource } from "ng2-smart-table/lib/lib/data-source/data-source";
 export interface InventoryTransaction {
     id: string;
     inventory: Inventory;
-    type: InventoryTransactionType;
+    type: InventoryTransaction;
     timeStamp: string;
     amount: number;
 }
 
 
 
-export interface InventoryTransactionType {
+export interface InventoryTransaction {
     value: string;
     name: string;
 }
@@ -23,10 +23,10 @@ export interface InventoryTransactionType {
 
 export abstract class InventoryTransactionsData {
   abstract get gridDataSource(): DataSource;
-  abstract listAll(): Observable<InventoryTransactionType[]>;
-  abstract list(pageNumber: number, pageSize: number, query?: string): Observable<InventoryTransactionType[]>;
-  abstract get(id: number): Observable<InventoryTransactionType>;
-  abstract create(Vendor: InventoryTransactionType): Observable<InventoryTransactionType>;
-  abstract update(Vendor: InventoryTransactionType): Observable<InventoryTransactionType>;
-  abstract delete(id: number): Observable<any>;
+  abstract listAll(): Observable<InventoryTransaction[]>;
+  abstract list(pageNumber: number, pageSize: number, query?: string): Observable<InventoryTransaction[]>;
+  abstract get(id: string): Observable<InventoryTransaction>;
+  abstract create(Vendor: InventoryTransaction): Observable<InventoryTransaction>;
+  abstract update(Vendor: InventoryTransaction): Observable<InventoryTransaction>;
+  abstract delete(id: string): Observable<any>;
 }

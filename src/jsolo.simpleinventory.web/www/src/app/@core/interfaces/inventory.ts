@@ -20,8 +20,8 @@ export abstract class InventoriesData {
   abstract get gridDataSource(): DataSource;
   abstract listAll(): Observable<Inventory[]>;
   abstract list(pageNumber: number, pageSize: number, query?: string): Observable<Inventory[]>;
-  abstract get(id: number): Observable<Inventory>;
+  abstract get(id: string): Observable<Inventory>;
   abstract create(Vendor: Inventory): Observable<Inventory>;
   abstract update(Vendor: Inventory): Observable<Inventory>;
-  abstract delete(id: number): Observable<any>;
+  abstract delete(id: string): Observable<any>;
 }

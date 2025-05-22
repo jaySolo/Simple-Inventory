@@ -13,8 +13,8 @@ export abstract class CurrenciesData {
   abstract get gridDataSource(): DataSource;
   abstract listAll(): Observable<Currency[]>;
   abstract list(pageNumber: number, pageSize: number, query?: string): Observable<Currency[]>;
-  abstract get(id: number): Observable<Currency>;
+  abstract get(code: string): Observable<Currency>;
   abstract create(Vendor: Currency): Observable<Currency>;
   abstract update(Vendor: Currency): Observable<Currency>;
-  abstract delete(id: number): Observable<any>;
+  abstract delete(code: string): Observable<any>;
 }
