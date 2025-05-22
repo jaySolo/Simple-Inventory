@@ -5,7 +5,9 @@ import { NbAuthModule } from '@nebular/auth';
 
 import { HttpService } from './http.service';
 import { VendorsData } from '../../interfaces/vendor';
-import { VendorService } from '../services/vendors.service';
+import { VendorsService } from '../services/vendors.service';
+import { UsersData } from '../../models/user';
+import { UsersService } from '../services/users.service';
 
 
 const API = [
@@ -15,7 +17,8 @@ const API = [
 ];
 
 const SERVICES = [
-  { provide: VendorsData, useClass: VendorService },
+  { provide: UsersData, useClass: UsersService },
+  { provide: VendorsData, useClass: VendorsService },
   // other backend services & api go here
 ];
 

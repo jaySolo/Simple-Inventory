@@ -8,7 +8,7 @@ import { Vendor, VendorsData } from "../../interfaces/vendor";
 import { DataSource } from "ng2-smart-table/lib/lib/data-source/data-source";
 
 @Injectable()
-export class VendorService extends VendorsData {
+export class VendorsService extends VendorsData {
 
     private readonly url: string;
 
