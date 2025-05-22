@@ -14,7 +14,8 @@ A simple inventory management solution for small shops and businesses.
 ## System Requirements for running in Development Mode
 - Node Version 18
 - Yarn Package Manager
-- .NET 6 or later
+- .NET SDK (.NET6 or later)
+- Visual Studio Code
 
 ## How to run it yourself
 Currently the best way to launch this procject is via Visual Studio Code. Other ways of launching the application is being worked on and will be made available shortly.
