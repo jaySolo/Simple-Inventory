@@ -18,6 +18,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { VendorDetailsComponent } from './vendor-details/vendor-details.component';
 import { VendorFormComponent } from './vendor-form/vendor-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedVendorsComponentsModule } from '../../shared/vendors/vendors.shared.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     TreeviewModule,
     VendorsRoutingModule,
+    SharedVendorsComponentsModule,
   ],
 })
 export class VendorsModule {}
