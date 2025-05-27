@@ -13,4 +13,5 @@ export const environment = {
   baseUrl: '',
   apiUri: 'api',
   dataUri: 'data',
+  SyncfusionKey: 'Ngo9BigBOggjHTQxAR8/V1NNaF1cWWhMYVF/WmFZfVtgdVRMYlRbRnNPMyBoS35Rc0VmW31fcXZdRGVZWUR/VEBU',
 };

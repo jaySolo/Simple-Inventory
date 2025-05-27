@@ -9,7 +9,7 @@ namespace jsolo.simpleinventory.impl.persistance.mappings;
 
 public class InventoryMap : EntityMap<Inventory, Guid>
 {
-    public InventoryMap() : base("inventory_transactions")
+    public InventoryMap() : base("inventories")
     {
         ManyToOne(inventory => inventory.Item, map =>
         {
