@@ -35,3 +35,16 @@ public class ApiStatsController : AuthorizePermissionsBaseController
     {
     }
 }
+
+
+
+[ApiController]
+// [Route("files/[controller]")]
+[Route("api/files/[controller]")]
+public class ApiFileController : AuthorizePermissionsBaseController
+{
+    public ApiFileController(
+        UserManager<User> userManager,
+        RoleManager<UserRole> roleManager
+    ) : base(userManager, roleManager) { }
+}
