@@ -1,0 +1,14 @@
+<div class="page-title row col-12 mb-4">
+  <div class="text">
+    <h3 class="mb-0">Inventories</h3>
+    <small class=""
+      >{{ count }} {{ count === 1 ? "Inventory" : "Inventories" }} found.</small
+    >
+  </div>
+</div>
+<div class="row">
+  <nb-card class="col p-0" accent="primary" [nbSpinner]="loading">
+    <ngx-inventories-list [inventories]="data" [canAdd]="true" [canEdit]="true" [canView]="true" [canDelete]="true">
+    </ngx-inventories-list>
+  </nb-card>
+</div>

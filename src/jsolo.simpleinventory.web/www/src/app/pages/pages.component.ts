@@ -27,13 +27,19 @@ export class PagesComponent {
         title: 'Vendors',
         icon: 'people',
         // hidden: !this.hasPermission('api/vendors', permissions),
-        link: '/pages/vendors'
+        link: '/pages/vendors',
       },
       {
         title: 'Products',
         icon: 'archive-outline',
         // hidden: !this.hasPermission('api/vendors', permissions),
-        link: '/pages/products'
+        link: '/pages/products',
+      },
+      {
+        title: 'Inventories',
+        icon: 'list-outline',
+        // hidden: !this.hasPermission('api/vendors', permissions),
+        link: '/pages/inventories',
       },
       {
         title: 'System Security',

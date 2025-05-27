@@ -28,6 +28,11 @@ const routes: Routes = [
           .then(m => m.ProductsModule),
       },
       {
+        path: 'inventories',
+        loadChildren: () => import('./inventories/inventories.module')
+          .then(m => m.InventoriesModule),
+      },
+      {
         path: 'security',
         // canActivate: [AdminGuard],
         loadChildren: () => import('./security/security.module')
