@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Reflection;
 
@@ -22,7 +23,13 @@ using jsolo.simpleinventory.web.Services;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-// builder.WebHost.UseSentry();
+Assembly? assembly = Assembly.GetEntryAssembly();
+FileVersionInfo appVersionInfo = FileVersionInfo.GetVersionInfo(assembly?.Location ?? string.Empty);
+
+
+#region Sentry Config
+builder.WebHost.UseSentry();
+#endregion
 
 #region services registration
 builder.Services.AddControllers();
@@ -80,16 +87,34 @@ builder.Services.AddSpaStaticFiles(c =>
 
 
 // configure strongly typed settings objects
-var appSettingsSection = builder.Configuration.GetSection("AppSettings");
-builder.Services.Configure<AppSettings>(appSettingsSection);
+builder.Services.Configure<AppSettings>((IConfiguration?)builder.Configuration.GetSection("AppSettings"));
+
+AppSettings appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
+switch (appSettings.StorageMode?.ToLower())
+{
+    case string cloud when cloud.Contains("cloud"):
+    case string minio when minio.Contains("minio"):
+        // builder.Services.AddScoped<IFileHandlerService, MinioFileHandlerService>();
+        break;
+        
+    case string local when local.Contains("local"):
+        builder.Services.AddScoped<IFileHandlerService, FlatFileHandlerService>();
+        break;
+        
+    default:
+        break;
+}
+
+
 builder.Services.AddSystem().AddInfrastructure(builder.Configuration);
 
+builder.Services.AddHttpClient();
+builder.Services.AddSentryTunneling();
+
 // configure jwt authentication
-var appSettings = appSettingsSection.Get<AppSettings>();
-var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -102,7 +127,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret)),
         ValidateIssuer = false,
         ValidateAudience = false
     };
@@ -114,24 +139,24 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAuthorization(opts =>
 {
-    opts.AddPolicy(Policies.AllowDevelopers, policy => policy.RequireClaim(
-        Claims.Developer.Type,
-        Claims.Developer.Value
-    ));
+    // opts.AddPolicy(Policies.AllowDevelopers, policy => policy.RequireClaim(
+    //     Claims.Developer.Type,
+    //     Claims.Developer.Value
+    // ));
 
-    opts.AddPolicy(Policies.AllowSystemAdmins, policy => policy.RequireClaim(
-        Claims.Administrator.Type,
-        Claims.Administrator.Value
-    ));
+    // opts.AddPolicy(Policies.AllowSystemAdmins, policy => policy.RequireClaim(
+    //     Claims.Administrator.Type,
+    //     Claims.Administrator.Value
+    // ));
 
-    opts.AddPolicy(Policies.AllowAuthenticatedUsers, policy => policy.RequireAuthenticatedUser());
+    // opts.AddPolicy(Policies.AllowAuthenticatedUsers, policy => policy.RequireAuthenticatedUser());
 });
 #endregion
 
 
 WebApplication app = builder.Build();
 
-// app.UseSentryTracing();
+app.UseSentryTracing();
 
 #region application configuration
 if (app.Environment.IsDevelopment())
@@ -185,8 +210,6 @@ app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
     
-var assembly = Assembly.GetEntryAssembly();
-var appVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly?.Location ?? string.Empty);
 
 app.UseEndpoints(endpoints =>
 {
