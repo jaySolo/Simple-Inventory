@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Launch App",
+            "type": "shell",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                // "Start Frontend",
+                "Start Backend"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "Start Frontend",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/src/jsolo.simpleinventory.web/www; yarn start",
+            "isBackground": true,
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Start Backend",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/jsolo.simpleinventory.web/jsolo.simpleinventory.web.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ]
+        }
+    ]
+}

@@ -2,20 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:4200",
-            "sourceMaps": true,
-            "webRoot": "${workspaceRoot}"
-        },
-        {
-            "type": "chrome",
-            "request": "attach",
-            "name": "Attach to Chrome",
-            "port": 9222,
-            "sourceMaps": true,
-            "webRoot": "${workspaceRoot}"
+            "preLaunchTask": "Launch App",
+            "program": "${workspaceFolder}/src/jsolo.simpleinventory.web/bin/Debug/net6.0/jsolo.simpleinventory.web.dll",
+            "args": [
+                "--MIGRATE-DB=NO",
+                "--SEED-DB=NO",
+                "--LAUNCH-APP=YES"
+            ],
+            "cwd": "${workspaceFolder}/src/jsolo.simpleinventory.web",
+            "stopAtEntry": false,
+            // "serverReadyAction": {
+            // "action": "openExternally",
+            // "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
         }
     ]
 }
