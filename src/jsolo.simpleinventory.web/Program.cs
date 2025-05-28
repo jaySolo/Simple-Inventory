@@ -28,10 +28,22 @@ FileVersionInfo appVersionInfo = FileVersionInfo.GetVersionInfo(assembly?.Locati
 
 
 #region Sentry Config
-builder.WebHost.UseSentry();
+builder.WebHost.UseSentry(opts =>
+{
+    opts.TracesSampleRate = 1.0;
+    opts.AddDiagnosticSourceIntegration();
+});
 #endregion
 
 #region services registration
+
+// configure strongly typed settings objects
+builder.Services.Configure<AppSettings>((IConfiguration?)builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<AppFilesStorageOptions>((IConfiguration?)builder.Configuration.GetSection("FilesStorageConfig"));
+
+AppSettings appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
+AppFilesStorageOptions filesStorageOptions = builder.Configuration.GetSection("FilesStorageConfig").Get<AppFilesStorageOptions>();
+
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen(c =>
@@ -39,20 +51,20 @@ builder.Services.AddSwaggerGen(c =>
     c.ResolveConflictingActions(desc => desc.First());
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "jsolo.simpleinventory.api.web",
-        Version = "v1.0.0",
-        Description = "Web API for APUA Electricity BU SCADA Information Dashboard",
-        TermsOfService = new Uri("https://example.com/terms"),
+        Title = appSettings.Title,
+        Version = appSettings.Version,
+        Description = appSettings.Description,
+        TermsOfService = new Uri(appSettings.ServiceTermsUrl),
         Contact = new OpenApiContact
         {
-            Name = "APUA Electricity BU SCADA Department",
-            Email = "scada@apua.ag",
-            // Url = new Uri("https://twitter.com/jwalkner"),
+            Name = appSettings.ContactName,
+            Email = appSettings.ContactEmail,
+            Url = new Uri(appSettings.ContactUrl),
         },
         License = new OpenApiLicense
         {
-            Name = "No License",
-            // Url = new Uri("https://example.com/license"),
+            Name = appSettings.LicenseName,
+            Url = new Uri(appSettings.LicenseUrl),
         }
     });
 
@@ -85,19 +97,13 @@ builder.Services.AddSpaStaticFiles(c =>
 // builder.Services.AddSingleton<IDataRepository, DataRepository>();
 // builder.Services.AddSingleton<TimerManger>();
 
-
-// configure strongly typed settings objects
-builder.Services.Configure<AppSettings>((IConfiguration?)builder.Configuration.GetSection("AppSettings"));
-
-AppSettings appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
-
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-switch (appSettings.StorageMode?.ToLower())
+switch (filesStorageOptions.StorageMode?.ToLower())
 {
     case string cloud when cloud.Contains("cloud"):
     case string minio when minio.Contains("minio"):
-        // builder.Services.AddScoped<IFileHandlerService, MinioFileHandlerService>();
+        builder.Services.AddScoped<IFileHandlerService, MinioFileHandlerService>();
         break;
         
     case string local when local.Contains("local"):
